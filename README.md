@@ -1,2 +1,2 @@
 # Dusknoir
-General purpose Discord bot
+General purpose Discord bot.
