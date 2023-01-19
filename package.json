@@ -1,0 +1,19 @@
+{
+  "name": "noir",
+  "version": "2.0",
+  "description": "Discord Bot made by Gui#2435.",
+  "main": "index.js",
+  "scripts": {
+    "node": "node -v && exit 0",
+    "npm": "npm -v && exit 0",
+    "djs": "npm list discord.js && exit 0",
+    "upd": "npm update && exit 0",
+    "test": "echo \"> Running correctly.\" && exit 0"
+  },
+  "keywords": [],
+  "author": "Gui#2435",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.7.1"
+  }
+}
