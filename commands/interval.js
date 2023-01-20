@@ -1,4 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
+const {
+	SlashCommandBuilder
+} = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -6,38 +8,37 @@ module.exports = {
 		.setDescription('Sets, lists and clears Intervals.')
 		.addSubcommand((subcommand) =>
 			subcommand
-				.setName('set')
-				.setDescription('Sets interval.')
-				.addIntegerOption((option) =>
-					option
-						.setName('time')
-						.setDescription('Interval loop time.')
-						.setMinValue(2)
-						.setMaxValue(300)
-						.setRequired(true)
-				)
-				.addBooleanOption((option) =>
-					option.setName('delete').setDescription('Delete previous.').setRequired(true)
-				)
-				.addStringOption((option) =>
-					option.setName('content').setDescription('Content.').setRequired(true)
-				)
-		)
-		.addSubcommand((subcommand) => subcommand.setName('list').setDescription('Intervals list.'))
+			.setName('set')
+			.setDescription('Sets interval.')
+			.addIntegerOption((option) =>
+				option.setName('time')
+				.setDescription('Interval loop time.')
+				.setMinValue(2)
+				.setMaxValue(300)
+				.setRequired(true))
+			.addBooleanOption((option) =>
+				option.setName('delete')
+				.setDescription('Delete previous.')
+				.setRequired(true))
+			.addStringOption((option) =>
+				option.setName('content')
+				.setDescription('Content.')
+				.setRequired(true)))
 		.addSubcommand((subcommand) =>
-			subcommand
-				.setName('clear')
-				.setDescription('Clear all intervals.')
-				.addIntegerOption((option) =>
-					option
-						.setName('number')
-						.setDescription('Interval number.')
-						.setMinValue(1)
-						.setMaxValue(10)
-				)
-		),
+			subcommand.setName('list')
+			.setDescription('Intervals list.'))
+		.addSubcommand((subcommand) =>
+			subcommand.setName('clear')
+			.setDescription('Clear all intervals.')
+			.addIntegerOption((option) =>
+				option.setName('number')
+				.setDescription('Interval number.')
+				.setMinValue(1)
+				.setMaxValue(10))),
 	async execute(interaction) {
-		var { intervals } = require('../events/interactionCreate.js');
+		var {
+			intervals
+		} = require('../events/interactionCreate.js');
 		const action = interaction.options.getSubcommand();
 
 		switch (action) {
@@ -48,31 +49,36 @@ module.exports = {
 				for (f = 1; f <= 10; f++)
 					if (!intervals[interaction.channel.id + '-' + f]) {
 						intervals[interaction.channel.id + '-' + f] = global.setInterval(
-							async function () {
+							async function() {
 								var message = global.setTimeout(
 									() => interaction.channel.send(messageContent),
 									300
 								);
 								if (deletePrevious)
 									interaction.channel.messages
-										.fetch({ limit: 15 })
-										.then((messages) => {
-											if (message) messages.delete(message.id);
-											for (let message of [...messages.values()])
-												if (
-													message.content == messageContent &&
-													message.author.id == interaction.client.user.id
-												)
-													message.delete().catch(console.error);
-										})
-										.catch(console.error);
-							}, timeInterval * 1000 );
+									.fetch({
+										limit: 15
+									})
+									.then((messages) => {
+										if (message) messages.delete(message.id);
+										for (let message of [...messages.values()])
+											if (
+												message.content == messageContent &&
+												message.author.id == interaction.client.user.id
+											)
+												message.delete().catch(console.error);
+									})
+									.catch(console.error);
+							}, timeInterval * 1000);
 						intervals[interaction.channel.id + '-' + f].message = messageContent;
-						await interaction.reply({ content: 'Interval set.', ephemeral: true });
+						interaction.reply({
+							content: 'Interval set.',
+							ephemeral: true
+						});
 						break;
 					}
 				if (!interaction.replied)
-					await interaction.reply({
+					interaction.reply({
 						content: 'Maximum intervals reached.',
 						ephemeral: true,
 					});
@@ -87,8 +93,11 @@ module.exports = {
 						message += `[\` ${Object.values(intervals)[id].message} \`]\t`;
 						message += `> <#${keys[id].slice(0, -2)}>\n`;
 					}
-					await interaction.reply(message);
-				} else await interaction.reply({ content: 'No intervals set.', ephemeral: true });
+					interaction.reply(message);
+				} else interaction.reply({
+					content: 'No intervals set.',
+					ephemeral: true
+				});
 			break;
 
 			case 'clear':
@@ -101,24 +110,34 @@ module.exports = {
 							delete intervals[interaction.channel.id + '-' + f];
 							cleared = true;
 						} else if (!f && !cleared)
-							await interaction.reply({
-								content: 'No interval to clear.',
-								ephemeral: true,
-							});
+						interaction.reply({
+							content: 'No interval to clear.',
+							ephemeral: true,
+						});
 					if (cleared)
-						await interaction.reply({ content: 'Intervals cleared.', ephemeral: true });
+						interaction.reply({
+							content: 'Intervals cleared.',
+							ephemeral: true
+						});
 				} else if (intervals[interaction.channel.id + '-' + number]) {
 					global.clearInterval(intervals[interaction.channel.id + '-' + number]);
 					delete intervals[interaction.channel.id + '-' + number];
-					await interaction.reply({
+					interaction.reply({
 						content: `Interval # **${number}**  cleared.`,
 						ephemeral: true,
 					});
 				} else
-					await interaction.reply({ content: 'No interval to clear.', ephemeral: true });
+					interaction.reply({
+						content: 'No interval to clear.',
+						ephemeral: true
+					});
 			break;
+
 			default:
-				await interaction.reply({ content: 'Unexpected.', ephemeral: true });
+				interaction.reply({
+					content: 'Unexpected.',
+					ephemeral: true
+				});
 		}
 	}
-};
+}

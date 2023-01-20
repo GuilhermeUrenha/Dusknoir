@@ -1,14 +1,18 @@
-const { SlashCommandBuilder, codeBlock } = require('discord.js');
+const {
+	SlashCommandBuilder,
+	codeBlock
+} = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('roll')
 		.setDescription('Dice roll.')
 		.addStringOption((option) =>
-			option.setName('dice').setDescription("Dice's to roll.").setRequired(true)
-		),
+			option.setName('dice')
+			.setDescription("Dice's to roll.")
+			.setRequired(true)),
 	async execute(interaction) {
-		var dice = await interaction.options.getString('dice');
+		var dice = interaction.options.getString('dice');
 		var dBase = Array.from(dice),
 			dSorted = [],
 			dTrim = [],
@@ -32,7 +36,7 @@ module.exports = {
 				dSorted.push(n);
 				continue;
 			}
-			return await interaction.reply({
+			return interaction.reply({
 				content: `> **Roll**: \`${dice}\`.\nUnexpected \`\'${n}\'\`.`,
 				ephemeral: true,
 			});
@@ -43,13 +47,9 @@ module.exports = {
 			if (previous != s) dTrim.push(s);
 			previous = s;
 		}
-		if (
-			dTrim.some((p) => p == '(') ? !dTrim.some((p) => p == ')') : dTrim.some((p) => p == ')')
-		)
-			return await interaction.reply({
-				content: `> **Roll**: \`${dice}\`.\nUnexpected \`\'${
-					dTrim.find((k) => k == '(') ?? dTrim.find((k) => k == ')')
-				}\'\`.`,
+		if (dTrim.some((p) => p == '(') ? !dTrim.some((p) => p == ')') : dTrim.some((p) => p == ')'))
+			return interaction.reply({
+				content: `> **Roll**: \`${dice}\`.\nUnexpected \`\'${dTrim.find((k) => k == '(') ?? dTrim.find((k) => k == ')')}\'\`.`,
 				ephemeral: true,
 			});
 		for (t of dTrim) {
@@ -57,7 +57,7 @@ module.exports = {
 				dDice = t.split('d');
 				dDice = dDice.map((i) => i.replace(/^$/, '1'));
 				if (dDice.length > 2)
-					return await interaction.reply({
+					return interaction.reply({
 						content: `> **Roll**: \`${dice}\`.\nInvalid Dice \`\'${t}\'\`.`,
 						ephemeral: true,
 					});
@@ -77,13 +77,11 @@ module.exports = {
 		try {
 			Total = global.eval(dResolved);
 		} catch (err) {
-			return await interaction.reply({
+			return interaction.reply({
 				content: `> **Roll**: \`${dice}\`.\nUnexpected input.`,
 				ephemeral: true,
 			});
 		}
-		await interaction.reply(
-			codeBlock('md', `# ${Total}\nDetails:[${dTrim.join('')} (${dRolls.join(' ')})]`)
-		);
+		interaction.reply(codeBlock('md', `# ${Total}\nDetails:[${dTrim.join('')} (${dRolls.join(' ')})]`));
 	}
 };

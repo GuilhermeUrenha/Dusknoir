@@ -1,4 +1,7 @@
-const { SlashCommandBuilder, codeBlock } = require('discord.js');
+const {
+	SlashCommandBuilder,
+	codeBlock
+} = require('discord.js');
 const util = require('util');
 
 module.exports = {
@@ -6,7 +9,9 @@ module.exports = {
 		.setName('eval')
 		.setDescription('Js coding.')
 		.addStringOption((option) =>
-			option.setName('code').setDescription('Code to execute.').setRequired(true)
+			option.setName('code')
+			.setDescription('Code to execute.')
+			.setRequired(true)
 		),
 	async execute(interaction) {
 		//if(interaction.user.id != require('../config.json').ownerId || interaction.guild.ownerId)
@@ -18,8 +23,11 @@ module.exports = {
 				evaled = util.inspect(evaled).substring(0, 1950) + '\n[...]';
 			else evaled = util.inspect(evaled);
 		} catch (err) {
-			return await interaction.reply({ content: `${codeBlock('ml', err)}`, ephemeral: true });
+			return await interaction.reply({
+				content: `${codeBlock('ml', err)}`,
+				ephemeral: true
+			});
 		}
-		await interaction.reply(codeBlock('js', code) + codeBlock('js', evaled));
+		interaction.reply(codeBlock('js', code) + codeBlock('js', evaled));
 	}
-};
+}

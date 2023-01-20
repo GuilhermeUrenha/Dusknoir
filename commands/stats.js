@@ -1,9 +1,14 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const {
+	SlashCommandBuilder,
+	EmbedBuilder
+} = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder().setName('stats').setDescription('Debug info.'),
 	async execute(interaction) {
-		const { latency } = require('../events/debug.js');
+		const {
+			latency
+		} = require('../events/debug.js');
 		const misc = require('../misc.js');
 
 		var Description = '';
@@ -19,11 +24,10 @@ module.exports = {
 			.setColor(interaction.guild.members.me.displayColor)
 			.setTitle('Client Info.')
 			.setDescription(Description)
-			.setThumbnail(
-				'https://64.media.tumblr.com/ab8e0fc428cedf454da7d4a15cc1bb5c/tumblr_mtl8u32w2K1rfjowdo1_500.gif'
-			);
-
-		await interaction.reply({ embeds: [informationEmbed] });
+			.setThumbnail('https://64.media.tumblr.com/ab8e0fc428cedf454da7d4a15cc1bb5c/tumblr_mtl8u32w2K1rfjowdo1_500.gif');
+		interaction.reply({
+			embeds: [informationEmbed]
+		});
 	}
 };
 /*

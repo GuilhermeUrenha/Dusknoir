@@ -1,7 +1,11 @@
-const { SlashCommandBuilder } = require('discord.js');
+const {
+	SlashCommandBuilder
+} = require('discord.js');
 
 module.exports = {
-	data: new SlashCommandBuilder().setName('restart').setDescription('Restart the client.'),
+	data: new SlashCommandBuilder()
+		.setName('restart')
+		.setDescription('Restart the client.'),
 	async execute(interaction) {
 		console.log('[Quitted.]');
 		await interaction.reply('`[Quitted.]`');
@@ -27,4 +31,4 @@ module.exports = {
         process.exit();
         */
 	}
-};
+}
