@@ -1,4 +1,7 @@
-const { Events, ActivityType } = require('discord.js');
+const {
+	Events,
+	ActivityType
+} = require('discord.js');
 
 module.exports = {
 	name: Events.ClientReady,
@@ -8,12 +11,17 @@ module.exports = {
 		let channel = guild.channels.cache.get('465329247511379969');
 		let totalServers = client.guilds.cache.size;
 		client.user.setPresence({
-			activities: [{ name: `${totalServers} servers.`, type: ActivityType.Watching }],
+			activities: [{
+				name: `${totalServers} servers.`,
+				type: ActivityType.Watching
+			}],
 			status: 'online', //idle / dnd / invisible
 		});
 
 		channel.messages
-			.fetch({ limit: 15 })
+			.fetch({
+				limit: 15
+			})
 			.then((messages) => {
 				for (var message of [...messages.values()]) {
 					if (message.content == '`[Ready.]`') {
@@ -24,9 +32,9 @@ module.exports = {
 			})
 			.catch(console.error);
 
-		global.setTimeout(function () {
+		global.setTimeout(function() {
 			console.log('[Ready.]');
 			channel.send('`[Ready.]`');
 		}, 800);
-	},
-};
+	}
+}
