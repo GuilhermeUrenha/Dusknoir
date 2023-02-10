@@ -1,6 +1,6 @@
 const { REST, Routes } = require('discord.js');
-const { token, clientId, guildId } = require('./config.json');
 const fs = require('node:fs');
+require('dotenv').config();
 
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -10,13 +10,13 @@ for(const file of commandFiles){
 	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({version: '10'}).setToken(token);
+const rest = new REST({version: '10'}).setToken(process.env.token);
 (async() =>{
 	try{
 		console.log(`[Refreshing ${commands.length} application (/) commands.]`);
 		const data = await rest.put(
-			Routes.applicationCommands(clientId),
-			//Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(process.env.clientId),
+			//Routes.applicationGuildCommands(process.env.clientId, process.env.guildId),
 			{body: commands},
 		);
 		console.log(`[Reloaded ${data.length} application (/) commands.]`);

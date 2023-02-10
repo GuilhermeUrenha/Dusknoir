@@ -23,7 +23,7 @@ module.exports = {
 		/*
         await interaction.reply('\`[Restarting.]\`');
         global.setTimeout(async() =>{
-            interaction.client.login(require('../config.json').token);
+            interaction.client.login(process.env.token);
             await interaction.editReply('\`[Restarted.]\`');
             process
         }, 5000);
