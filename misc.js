@@ -21,6 +21,6 @@ function Time(Sec){ // / 1000
 
 	if(Sec == Math.round(Sec))
 		return `${Hr}h ${Min}m ${parseFloat(Sec)}s`;
-	else	
+	else
 		return `${Hr}h ${Min}m ${parseFloat(Sec).toFixed(2)}s`;
 } exports.Time = Time;

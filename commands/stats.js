@@ -9,11 +9,10 @@ module.exports = {
 		const {
 			latency
 		} = require('../events/debug.js');
-		const misc = require('../misc.js');
 
 		var Description = '';
 		Description += `\nNode.js Version: \`${process.version}\``;
-		Description += `\nClient Runtime: \`${misc
+		Description += `\nClient Runtime: \`${require('../misc.js')
 			.Time(interaction.client.uptime / 1000)
 			.replace('.', ',')}\``;
 		if (latency) Description += `\nConnection Latency: \`${latency}\``;
