@@ -13,27 +13,27 @@ module.exports = {
 			.setRequired(true)),
 	async execute(interaction) {
 		var dice = interaction.options.getString('dice');
-		var dBase = Array.from(dice),
-			dSorted = [],
-			dTrim = [],
-			dRolls = [],
-			dFilter = [];
+		var baseDice = Array.from(dice),
+			sortedNumbers = [],
+			trimmedDice = [],
+			rolledDices = [],
+			filteredDice = [];
 		var Numbers = '',
-			dDice = [],
-			dSplit = [],
-			dResolved = '',
+			logicalDice = [],
+			diceSplits = [],
+			resolvedDice = '',
 			Total;
-		for (n of dBase) {
+		for (n of baseDice) {
 			if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'd'].some((d) => d == n)) {
 				Numbers += n;
 				continue;
 			}
 			if (['+', '-', '*', '/', '^', '(', ')'].some((d) => d == n)) {
 				if (Numbers.length) {
-					dSorted.push(Numbers);
+					sortedNumbers.push(Numbers);
 					Numbers = '';
 				}
-				dSorted.push(n);
+				sortedNumbers.push(n);
 				continue;
 			}
 			return interaction.reply({
@@ -41,47 +41,47 @@ module.exports = {
 				ephemeral: true,
 			});
 		}
-		if (Numbers.length) dSorted.push(Numbers);
+		if (Numbers.length) sortedNumbers.push(Numbers);
 		let previous;
-		for (s of dSorted) {
-			if (previous != s) dTrim.push(s);
+		for (s of sortedNumbers) {
+			if (previous != s) trimmedDice.push(s);
 			previous = s;
 		}
-		if (dTrim.some((p) => p == '(') ? !dTrim.some((p) => p == ')') : dTrim.some((p) => p == ')'))
+		if (trimmedDice.some((p) => p == '(') ? !trimmedDice.some((p) => p == ')') : trimmedDice.some((p) => p == ')'))
 			return interaction.reply({
-				content: `> **Roll**: \`${dice}\`.\nUnexpected \`\'${dTrim.find((k) => k == '(') ?? dTrim.find((k) => k == ')')}\'\`.`,
+				content: `> **Roll**: \`${dice}\`.\nUnexpected \`\'${trimmedDice.find((k) => k == '(') ?? trimmedDice.find((k) => k == ')')}\'\`.`,
 				ephemeral: true,
 			});
-		for (t of dTrim) {
+		for (t of trimmedDice) {
 			if (t.includes('d')) {
-				dDice = t.split('d');
-				dDice = dDice.map((i) => i.replace(/^$/, '1'));
-				if (dDice.length > 2)
+				logicalDice = t.split('d');
+				logicalDice = logicalDice.map((i) => i.replace(/^$/, '1'));
+				if (logicalDice.length > 2)
 					return interaction.reply({
 						content: `> **Roll**: \`${dice}\`.\nInvalid Dice \`\'${t}\'\`.`,
 						ephemeral: true,
 					});
-				for (t = 1; t <= dDice[0]; t++) {
-					let r = Math.floor(Math.random() * dDice[1]) + 1;
-					dRolls.push(r);
-					dSplit.push(r);
+				for (t = 1; t <= logicalDice[0]; t++) {
+					let r = Math.floor(Math.random() * logicalDice[1]) + 1;
+					rolledDices.push(r);
+					diceSplits.push(r);
 				}
-				dFilter.push(dSplit);
-				dSplit = [];
-			} else dFilter.push(t);
+				filteredDice.push(diceSplits);
+				diceSplits = [];
+			} else filteredDice.push(t);
 		}
-		for (f of dFilter) {
+		for (f of filteredDice) {
 			if (typeof f == 'object') f = f.reduce((a, c) => a + c, 0);
-			dResolved += f;
+			resolvedDice += f;
 		}
 		try {
-			Total = global.eval(dResolved);
+			Total = global.eval(resolvedDice);
 		} catch (err) {
 			return interaction.reply({
 				content: `> **Roll**: \`${dice}\`.\nUnexpected input.`,
 				ephemeral: true,
 			});
 		}
-		interaction.reply(codeBlock('md', `# ${Total}\nDetails:[${dTrim.join('')} (${dRolls.join(' ')})]`));
+		interaction.reply(codeBlock('prolog', `# ${Total}\nDetails:['${trimmedDice.join('')}' (${rolledDices.join(' ')})]`)); //css, ml, md, prolog
 	}
 };
