@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('Restart the client.'),
 	async execute(interaction) {
 		console.log('[Quitted.]');
-		await interaction.reply('`[Quitted.]`');
+		interaction.reply('`[Quitted.]`');
 		await interaction.client.destroy();
 		process.exit(0);
 
