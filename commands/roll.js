@@ -18,20 +18,20 @@ module.exports = {
 			trimmedDice = [],
 			rolledDices = [],
 			filteredDice = [];
-		var Numbers = '',
+		var numbers = '',
 			logicalDice = [],
 			diceSplits = [],
 			resolvedDice = '',
 			Total;
 		for (n of baseDice) {
 			if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'd'].some((d) => d == n)) {
-				Numbers += n;
+				numbers += n;
 				continue;
 			}
 			if (['+', '-', '*', '/', '^', '(', ')'].some((d) => d == n)) {
-				if (Numbers.length) {
-					sortedNumbers.push(Numbers);
-					Numbers = '';
+				if (numbers.length) {
+					sortedNumbers.push(numbers);
+					numbers = '';
 				}
 				sortedNumbers.push(n);
 				continue;
@@ -41,7 +41,7 @@ module.exports = {
 				ephemeral: true,
 			});
 		}
-		if (Numbers.length) sortedNumbers.push(Numbers);
+		if (numbers.length) sortedNumbers.push(numbers);
 		let previous;
 		for (s of sortedNumbers) {
 			if (previous != s) trimmedDice.push(s);
