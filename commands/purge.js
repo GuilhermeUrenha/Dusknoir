@@ -15,7 +15,7 @@ module.exports = {
 		.setDMPermission(false),
 	async execute(interaction) {
 		const amount = interaction.options.getInteger('amount') ?? 1;
-		interaction.deferReply({
+		await interaction.deferReply({
 			ephemeral: true
 		});
 		try {
