@@ -12,8 +12,8 @@ module.exports = {
 			.setDescription("Dice's to roll.")
 			.setRequired(true)),
 	async execute(interaction) {
-		var dice = interaction.options.getString('dice');
-		var baseDice = Array.from(dice),
+		const dice = interaction.options.getString('dice');
+		const baseDice = Array.from(dice),
 			sortedNumbers = [],
 			trimmedDice = [],
 			rolledDices = [],
@@ -84,4 +84,4 @@ module.exports = {
 		}
 		interaction.reply(codeBlock('prolog', `# ${Total}\nDetails:['${trimmedDice.join('')}' (${rolledDices.join(' ')})]`)); //css, ml, md, prolog
 	}
-};
+}

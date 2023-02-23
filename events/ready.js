@@ -7,9 +7,9 @@ module.exports = {
 	name: Events.ClientReady,
 	once: true,
 	execute(client) {
-		let guild = client.guilds.cache.get('423291676379840512');
-		let channel = guild.channels.cache.get('465329247511379969');
-		let totalServers = client.guilds.cache.size;
+		const guild = client.guilds.cache.get('423291676379840512');
+		const channel = guild.channels.cache.get('465329247511379969');
+		const totalServers = client.guilds.cache.size;
 		client.user.setPresence({
 			activities: [{
 				name: `${totalServers} servers.`,
@@ -23,7 +23,7 @@ module.exports = {
 				limit: 15
 			})
 			.then((messages) => {
-				for (var message of [...messages.values()]) {
+				for (const message of [...messages.values()]) {
 					if (message.content == '`[Ready.]`') {
 						message.delete().catch(console.error);
 						return true;
@@ -32,7 +32,7 @@ module.exports = {
 			})
 			.catch(console.error);
 
-		global.setTimeout(function() {
+		global.setTimeout(() => {
 			console.log('[Ready.]');
 			channel.send('`[Ready.]`');
 		}, 800);

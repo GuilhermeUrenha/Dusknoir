@@ -36,7 +36,7 @@ module.exports = {
 				.setMinValue(1)
 				.setMaxValue(10))),
 	async execute(interaction) {
-		var {
+		const {
 			intervals
 		} = require('../events/interactionCreate.js');
 		const action = interaction.options.getSubcommand();
@@ -50,10 +50,7 @@ module.exports = {
 					if (!intervals[interaction.channel.id + '-' + f]) {
 						intervals[interaction.channel.id + '-' + f] = global.setInterval(
 							async function() {
-								var message = global.setTimeout(
-									() => interaction.channel.send(messageContent),
-									300
-								);
+								const message = global.setTimeout(() => interaction.channel.send(messageContent), 300);
 								if (deletePrevious)
 									interaction.channel.messages
 									.fetch({
@@ -80,7 +77,7 @@ module.exports = {
 				if (!interaction.replied)
 					interaction.reply({
 						content: 'Maximum intervals reached.',
-						ephemeral: true,
+						ephemeral: true
 					});
 			break;
 
@@ -102,7 +99,7 @@ module.exports = {
 
 			case 'clear':
 				const number = interaction.options.getInteger('number') ?? 0;
-				let cleared = false;
+				var cleared = false;
 				if (!number) {
 					for (f = Object.keys(intervals).length; f >= 0; f--)
 						if (intervals[interaction.channel.id + '-' + f]) {
@@ -112,7 +109,7 @@ module.exports = {
 						} else if (!f && !cleared)
 						interaction.reply({
 							content: 'No interval to clear.',
-							ephemeral: true,
+							ephemeral: true
 						});
 					if (cleared)
 						interaction.reply({
@@ -124,7 +121,7 @@ module.exports = {
 					delete intervals[interaction.channel.id + '-' + number];
 					interaction.reply({
 						content: `Interval # **${number}**  cleared.`,
-						ephemeral: true,
+						ephemeral: true
 					});
 				} else
 					interaction.reply({

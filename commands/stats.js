@@ -10,25 +10,25 @@ module.exports = {
 			latency
 		} = require('../events/debug.js');
 
-		var Description = '';
-		Description += `\nNode.js Version: \`${process.version}\``;
-		Description += `\nClient Runtime: \`${require('../misc.js')
+		var description = '';
+		description += `\nNode.js Version: \`${process.version}\``;
+		description += `\nClient Runtime: \`${require('../misc.js')
 			.Time(interaction.client.uptime / 1000)
 			.replace('.', ',')}\``;
-		if (latency) Description += `\nConnection Latency: \`${latency}\``;
-		else Description += `\nConnection Latency: \`Sending a heartbeat…\``;
-		Description += `\nAPI Latency: \`${interaction.client.ws.ping}ms\``;
+		if (latency) description += `\nConnection Latency: \`${latency}\``;
+		else description += `\nConnection Latency: \`Sending a heartbeat…\``;
+		description += `\nAPI Latency: \`${interaction.client.ws.ping}ms\``;
 
 		const informationEmbed = new EmbedBuilder()
 			.setColor(interaction.guild.members.me.displayColor)
 			.setTitle('Client Info.')
-			.setDescription(Description)
+			.setDescription(description)
 			.setThumbnail('https://64.media.tumblr.com/ab8e0fc428cedf454da7d4a15cc1bb5c/tumblr_mtl8u32w2K1rfjowdo1_500.gif');
 		interaction.reply({
 			embeds: [informationEmbed]
 		});
 	}
-};
+}
 /*
 console.log('platform')
 console.log(process.platform);

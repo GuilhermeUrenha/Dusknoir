@@ -23,7 +23,7 @@ module.exports = {
 		} catch (error) {
 			return interaction.editReply({
 				content: `> Failed to delete messages.\n\`${String(error).replace(']:', ']:\`')}`,
-				ephemeral: true,
+				ephemeral: true
 			});
 		}
 		interaction.editReply({

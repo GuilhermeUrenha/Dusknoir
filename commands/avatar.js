@@ -12,8 +12,8 @@ module.exports = {
 			.setDescription('The target user.')),
 	async execute(interaction) {
 		const user = (await interaction.options.getUser('user')) ?? interaction.user;
-		let member = await interaction.guild.members.fetch(user.id);
-		var avatarEmbed = new EmbedBuilder()
+		const member = await interaction.guild.members.fetch(user.id);
+		const avatarEmbed = new EmbedBuilder()
 			.setColor(member.displayColor)
 			.setTitle(`${user.username}#${user.discriminator}`)
 			.setImage(user.displayAvatarURL({

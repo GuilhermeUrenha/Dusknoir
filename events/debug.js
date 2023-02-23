@@ -7,7 +7,7 @@ module.exports = {
 	latency: 0,
 	execute(information) {
 		const infoArray = information.split(/ +/);
-		var latency = infoArray[infoArray.length - 1];
+		const latency = infoArray[infoArray.length - 1];
 		if (latency.endsWith('ms')) this.latency = latency;
 	}
 }

@@ -15,12 +15,12 @@ module.exports = {
 				ephemeral: true
 			});
 
-		var fetchOwner = await interaction.guild.fetchOwner();
-		var roles = new Map(interaction.guild.roles.cache);
+		const fetchOwner = await interaction.guild.fetchOwner();
+		const roles = new Map(interaction.guild.roles.cache);
 		for (r of [...roles])
 			if (r[1].name == '@everyone') roles.delete(r[0]);
 
-		let textChannel = 0,
+		const textChannel = 0,
 			voiceChannel = 2,
 			categoryChannel = 4,
 			announcementChannel = 5;
