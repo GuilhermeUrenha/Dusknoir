@@ -33,7 +33,7 @@ module.exports = {
 			.catch(console.error);
 
 		global.setTimeout(() => {
-			console.log('[Ready.]');
+			process.stdout.write('[Ready.]');
 			channel.send('`[Ready.]`');
 		}, 800);
 	}
