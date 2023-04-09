@@ -9,8 +9,8 @@ module.exports = {
 		.setDescription('Dice roll.')
 		.addStringOption((option) =>
 			option.setName('dice')
-			.setDescription("Dice's to roll.")
-			.setRequired(true)),
+				.setDescription("Dice's to roll.")
+				.setRequired(true)),
 	async execute(interaction) {
 		const dice = interaction.options.getString('dice');
 		const baseDice = Array.from(dice),
@@ -18,11 +18,13 @@ module.exports = {
 			trimmedDice = [],
 			rolledDices = [],
 			filteredDice = [];
-		var numbers = '',
+
+		let numbers = '',
 			logicalDice = [],
 			diceSplits = [],
 			resolvedDice = '',
 			Total;
+
 		for (n of baseDice) {
 			if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'd'].some((d) => d == n)) {
 				numbers += n;
@@ -41,17 +43,21 @@ module.exports = {
 				ephemeral: true,
 			});
 		}
+
 		if (numbers.length) sortedNumbers.push(numbers);
 		let previous;
+
 		for (s of sortedNumbers) {
 			if (previous != s) trimmedDice.push(s);
 			previous = s;
 		}
+
 		if (trimmedDice.some((p) => p == '(') ? !trimmedDice.some((p) => p == ')') : trimmedDice.some((p) => p == ')'))
 			return interaction.reply({
 				content: `> **Roll**: \`${dice}\`.\nUnexpected \`\'${trimmedDice.find((k) => k == '(') ?? trimmedDice.find((k) => k == ')')}\'\`.`,
 				ephemeral: true,
 			});
+
 		for (t of trimmedDice) {
 			if (t.includes('d')) {
 				logicalDice = t.split('d');
@@ -70,10 +76,12 @@ module.exports = {
 				diceSplits = [];
 			} else filteredDice.push(t);
 		}
+
 		for (f of filteredDice) {
 			if (typeof f == 'object') f = f.reduce((a, c) => a + c, 0);
 			resolvedDice += f;
 		}
+
 		try {
 			Total = global.eval(resolvedDice);
 		} catch (err) {
@@ -82,6 +90,7 @@ module.exports = {
 				ephemeral: true,
 			});
 		}
+
 		interaction.reply(codeBlock('prolog', `# ${Total}\nDetails:['${trimmedDice.join('')}' (${rolledDices.join(' ')})]`)); //css, ml, md, prolog
 	}
 }

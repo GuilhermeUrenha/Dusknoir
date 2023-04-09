@@ -8,7 +8,7 @@ module.exports = {
 		.setName('ping')
 		.setDescription('pong'),
 	async execute(interaction) {
-		var messageId;
+		let messageId;
 		interaction.reply({
 			content: 'pong',
 			ephemeral: true

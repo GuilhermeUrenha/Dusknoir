@@ -10,7 +10,7 @@ module.exports = {
 			latency
 		} = require('../events/debug.js');
 
-		var description = '';
+		let description = '';
 		description += `\nNode.js Version: \`${process.version}\``;
 		description += `\nClient Runtime: \`${require('../misc.js')
 			.Time(interaction.client.uptime / 1000)
